@@ -4,6 +4,11 @@ import { DiaryStateContext } from './../App';
 import DiaryEdit from './../components/DiaryEdit';
 
 const Edit = () => {
+  useEffect(()=>{
+    const titleElement = document.getElementsByTagName('title')[0];
+    titleElement.innerHTML = `감정 일기장 - ${id}번 수정`; 
+  },[]);
+
   const [originData, setOriginData] = useState();
   const navigate = useNavigate();
   const { id } = useParams();

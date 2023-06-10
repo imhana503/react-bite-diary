@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext, useEffect, useCallback } from 'react';
 
 import { DiaryDispatchContext } from './../App';
 
@@ -17,7 +17,7 @@ const DiaryEdit = ({ isEdit, originData }) => {
   const [emotion, setEmotion] = useState(3);
   const [date, setDate] = useState(getStringDate(new Date()));
 
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
 
 
@@ -41,8 +41,15 @@ const DiaryEdit = ({ isEdit, originData }) => {
     }
   }
 
-  const handleClickEmote = (emotion) => {
+  const handleClickEmote = useCallback((emotion) => {
     setEmotion(emotion);
+  },[]);
+
+  const handleRemove = () => {
+    if(window.confirm('정말 삭제하시겠습니까?')){
+      onRemove(originData.id);
+      navigate('/', {replace:true})
+    }
   }
 
   //일기 수정하기 페이지
@@ -62,8 +69,12 @@ const DiaryEdit = ({ isEdit, originData }) => {
           <MyButton 
             text={'<뒤로가기'}
             onClick={()=>navigate(-1)}
-          />
+          />        
         }
+        rightChild={ 
+          isEdit && (
+          <MyButton text={'삭제하기'} type="negative" onClick={handleRemove}/> 
+          )}
       />
       <div>
         <section>

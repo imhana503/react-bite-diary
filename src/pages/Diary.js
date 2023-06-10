@@ -9,6 +9,11 @@ import { getStringDate } from '../util/date';
 import { emotionList } from '../util/emotion';
 
 const Diary = () => {
+  useEffect(()=>{
+    const titleElement = document.getElementsByTagName('title')[0];
+    titleElement.innerHTML = `감정 일기장 - ${id}번 일기`; 
+  },[]);
+
   const { id } = useParams();
   const diaryList = useContext(DiaryStateContext);
   const [data, setData] = useState();
